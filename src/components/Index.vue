@@ -357,7 +357,8 @@ export default {
                     data: {}
                 }
                 let datacontent = data.data
-                for(let key in datacontent) {
+                let keys = ['基本信息', '诊断信息', '治疗信息']
+                for(let key in keys) {
                     res.data[key] = []
                     datacontent[key].forEach(ele => {
                         let item = {
