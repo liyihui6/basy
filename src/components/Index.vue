@@ -60,12 +60,12 @@
                 </div>
             </div>
             <el-scrollbar :style="{height: descHeight + 'px', width: '100%'}">
-                <div v-for="(items, key) in rightData" :key="key" class="content-right">
+                <div v-for="(items, key, index) in rightData" :key="key" class="content-right">
                     <div class="content-title">
                         {{key}}
                     </div>
                     <div class="content-form">
-                        <div class="content-form-header">
+                        <div v-if="index === 0" class="content-form-header">
                             <span class="content-form-header-item">显示字段</span>
                             <span class="content-form-header-item">医生视图(IIH)</span>
                             <span class="content-form-header-item">校正后视图(病案)</span>
@@ -73,19 +73,20 @@
                         </div>
                         <div v-for="(item, index) in items" :key="item.values[0] + index" class="content-form-article">
                             <span style="border-left: 1px solid grey" class="content-form-article-item">
-                                <el-checkbox style="display: inline-block;margin-right: 6px" v-model="item.selected"></el-checkbox>
-                                <span style="display: inline-block; width: 50%;">
-                                    <span>{{item.values[0]}}</span>
-                                </span>
+                                <el-checkbox style="margin-right: 6px" v-model="item.selected"></el-checkbox>
+                                <span class="form-cell-content">{{item.values[0]}}</span>
+                                <!-- <span style="display: inline-block;">
+                                    
+                                </span> -->
                             </span>
                             <div class="content-form-article-item">
-                                <span v-if="item.selected">{{item.values[1]}}</span>
+                                <span class="form-cell-content" v-if="item.selected">{{item.values[1]}}</span>
                             </div>
                             <div class="content-form-article-item">
-                                <span :style="{color: item.values[2] === item.values[1] ? 'black' : 'red'}" v-if="item.selected">{{item.values[2]}}</span>
+                                <span class="form-cell-content" :style="{color: item.values[2] === item.values[1] ? 'black' : 'red'}" v-if="item.selected">{{item.values[2]}}</span>
                             </div>
                             <div class="content-form-article-item">
-                                <span :style="{color: item.values[3] === item.values[1] ? 'black' : 'red'}" v-if="item.selected">{{item.values[3]}}</span>
+                                <span class="form-cell-content" :style="{color: item.values[3] === item.values[1] ? 'black' : 'red'}" v-if="item.selected">{{item.values[3]}}</span>
                             </div>
                         </div>
                     </div>
@@ -134,7 +135,7 @@ export default {
     },
     data() {
         return {
-            date: [],
+            date: ['all', 'all'],
             department: 'all',
             id: '',
             descHeight: 0,
@@ -150,7 +151,7 @@ export default {
                             {
                                 values: [
                                     'key12',
-                                    'value1',
+                                    'value1value1value1value1value1value1value1value1value1value1value1value1value1value1value1value1value1value1value1value1value1value1value1value1value1',
                                     'value2',
                                     'value3',
                                 ],
@@ -515,6 +516,16 @@ export default {
     display: flex;
     align-items: center;
 }
+.form-cell-content{
+    display: inline-block;
+    width: 100%;
+    /* overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; */
+    white-space:normal;
+	word-break:break-all;
+	word-wrap:break-word;
+}
 
 .content-title{
     padding: 5px;
@@ -533,8 +544,9 @@ export default {
 .content-form-article{
     width: 100%;
     display: flex;
-    align-items: center;
+    align-items: stretch;
     text-align: left;
+    border-bottom: 1px solid grey;
 }
 
 .content-form-article:nth-child(2n-1){
@@ -562,11 +574,11 @@ export default {
 }
 
 .content-form-article-item{
-    display: inline-block;
+    display: flex;
+    align-items: center;
     padding: 5px;
     text-align: left;
     border-right: 1px solid grey;
-    border-bottom: 1px solid grey;
     font-size: 14px;
     width: 25%;
     min-height: 25px;
